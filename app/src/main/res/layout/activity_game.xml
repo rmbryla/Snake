@@ -5,5 +5,18 @@
     android:layout_height="match_parent"
     android:id="@+id/game_layout_activity">
 
+    <ImageButton
+        android:id="@+id/game_pause_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/pause"
+
+        android:layout_marginTop="120dp"
+        android:layout_marginLeft="10dp"
+        android:background="#00FFFFFF"
+
+
+        />
+
 
 </FrameLayout>
