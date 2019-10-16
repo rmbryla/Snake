@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="#00ffffff"
+    android:theme="@style/EndGameTheme">
+
+    <TextView
+        android:id="@+id/end_game_play_again"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Play Again"
+        android:textSize="@dimen/font_48"
+        android:textColor="@color/white"
+        android:fontFamily="@font/subwt_"
+
+
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        android:layout_marginTop="200dp"
+        />
+
+
+    <TextView
+        android:id="@+id/end_game_main_menu"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="@color/white"
+        android:fontFamily="@font/subwt_"
+        android:text="Main Menu"
+        android:textSize="@dimen/font_32"
+
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/end_game_play_again"
+        android:paddingTop="@dimen/common_dimen_32"
+        />
+
+    <TextView
+        android:id="@+id/end_game_high_score_1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="@color/white"
+        android:fontFamily="@font/subwt_"
+        android:text="1st: N"
+        android:textSize="@dimen/font_24"
+        android:visibility="invisible"
+
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/end_game_main_menu"
+        android:paddingTop="@dimen/common_dimen_16"/>
+
+    <TextView
+        android:id="@+id/end_game_high_score_2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="@color/white"
+        android:fontFamily="@font/subwt_"
+        android:text="2nd: N"
+        android:textSize="@dimen/font_24"
+        android:visibility="invisible"
+
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/end_game_high_score_1"
+        android:paddingTop="@dimen/common_dimen_16"/>
+
+    <TextView
+        android:id="@+id/end_game_high_score_3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="@color/white"
+        android:fontFamily="@font/subwt_"
+        android:text="2nd: N"
+        android:textSize="@dimen/font_24"
+        android:visibility="invisible"
+
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/end_game_high_score_2"
+        android:paddingTop="@dimen/common_dimen_16"/>
+
+
+</android.support.constraint.ConstraintLayout>
