@@ -69,6 +69,10 @@ public class Game extends SurfaceView implements GestureDetector.OnGestureListen
         return snake;
     }
 
+    public boolean isPlaying() {
+        return isPlaying;
+    }
+
     private int calcNumBoxesTall() {
         int adjustedHeight = screenHeight-scoreBoardHeight-2*topMargin-bottomMargin;
         double exactNumBoxes = adjustedHeight/boxWidth;

@@ -37,7 +37,8 @@ public class GameActivity extends AppCompatActivity {
         findViewById(R.id.game_pause_button).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                game.pause();
+                if (game.isPlaying()) game.pause();
+                else game.resume();
             }
         });
     }
