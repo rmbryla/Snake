@@ -11,6 +11,7 @@ import main.snake.UI.Game;
 public class SessionManager {
     private static Game game;
     private static ScoreBoard scoreBoard;
+    private static boolean initialized = false;
 
 
     public static void setGame(Game game) {
@@ -26,12 +27,23 @@ public class SessionManager {
     }
 
     public static void loadScoreBoard() {
+        if (initialized) return;
         try {
             FileInputStream f = new FileInputStream(new File("scoreBoard.txt"));
             ObjectInputStream o = new ObjectInputStream(f);
 
             scoreBoard = (ScoreBoard) o.readObject();
-        } catch (IOException e) { }
-        catch (ClassNotFoundException e) {}
+            f.close();
+            o.close();
+        } catch (IOException e) {
+            scoreBoard = new ScoreBoard();
+        }
+        catch (ClassNotFoundException e) {
+        }
+        initialized = true;
+    }
+
+    public static void addScore(int score) {
+        scoreBoard.addScore(score);
     }
 }

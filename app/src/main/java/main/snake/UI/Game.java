@@ -13,8 +13,10 @@ import android.view.MotionEvent;
 import android.view.SurfaceView;
 
 import main.snake.Model.Apple;
+import main.snake.Model.ScoreBoard;
 import main.snake.Model.Snake;
 import main.snake.R;
+import main.snake.SessionManager;
 import main.snake.UI.EndGameActivity.EndGameActivity;
 
 public class Game extends SurfaceView implements GestureDetector.OnGestureListener {
@@ -71,6 +73,10 @@ public class Game extends SurfaceView implements GestureDetector.OnGestureListen
 
     public boolean isPlaying() {
         return isPlaying;
+    }
+
+    public int getScore() {
+        return this.snake.getSize() - 5;
     }
 
     private int calcNumBoxesTall() {
@@ -138,6 +144,7 @@ public class Game extends SurfaceView implements GestureDetector.OnGestureListen
     }
 
     private void gameOver(){
+        SessionManager.addScore(getScore());
         pause();
         Intent intent = new Intent(mContext, EndGameActivity.class);
         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
