@@ -22,23 +22,6 @@ public class EndGameActivity extends AppCompatActivity {
 
         setContentView(R.layout.activity_end_game);
 
-        // set high scores
-
-        findViewById(R.id.end_game_play_again).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(getApplicationContext(), GameActivity.class);
-                startActivity(intent);
-            }
-        });
-
-        findViewById(R.id.end_game_main_menu).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(getApplicationContext(), StartScreenActivity.class);
-                startActivity(intent);
-            }
-        });
         ArrayList<Integer> scores = SessionManager.getScoreBoard().getScores();
         if (scores.size() >= 1) {
             String text1 = "1st : " + Integer.toString(scores.get(scores.size() - 1));
@@ -59,6 +42,23 @@ public class EndGameActivity extends AppCompatActivity {
             score3.setText(text3);
             score3.setVisibility(View.VISIBLE);
         }
+
+        findViewById(R.id.end_game_play_again).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getApplicationContext(), GameActivity.class);
+                startActivity(intent);
+            }
+        });
+
+        findViewById(R.id.end_game_main_menu).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getApplicationContext(), StartScreenActivity.class);
+                startActivity(intent);
+            }
+        });
+
     }
 
     @Override
