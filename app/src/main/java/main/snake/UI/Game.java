@@ -13,12 +13,15 @@ import android.view.MotionEvent;
 import android.view.SurfaceView;
 
 import main.snake.Model.Apple;
+import main.snake.Model.Callback;
 import main.snake.Model.Snake;
 import main.snake.R;
 import main.snake.UI.EndGameActivity.EndGameActivity;
 
-public class Game extends SurfaceView implements GestureDetector.OnGestureListener {
+public class Game extends SurfaceView implements GestureDetector.OnGestureListener, Runnable {
     private boolean isPlaying;
+    private Thread thread = null;
+    private Callback done;
 
     private GestureDetector gestureDetector;
 
@@ -37,14 +40,11 @@ public class Game extends SurfaceView implements GestureDetector.OnGestureListen
     private int screenWidth;
     private int screenHeight;
 
-    private int framesSinceLastUpdate = 0;
-    private int updateOnFrame = 8;
 
-    private Context mContext;
-
-    public Game(Context context, Point size) {
+    public Game(Context context, Point size, Callback done) {
         super(context);
-        this.mContext = context;
+
+        this.done = done;
 
         this.screenHeight = size.y;
         this.screenWidth = size.x;
@@ -101,9 +101,6 @@ public class Game extends SurfaceView implements GestureDetector.OnGestureListen
         snake.setCurrentDirection(dir);
     }
 
-    private boolean updateRequired() {
-        return framesSinceLastUpdate >= updateOnFrame;
-    }
 
     @Override
     public boolean onTouchEvent(MotionEvent event) {
@@ -113,20 +110,6 @@ public class Game extends SurfaceView implements GestureDetector.OnGestureListen
     }
 
 
-    @Override
-    protected void onDraw(Canvas canvas) {
-        if (isPlaying && updateRequired()) {
-            update();
-            if (snake.isDead()) {
-                isPlaying = false;
-            }
-            framesSinceLastUpdate = 0;
-        } else if (isPlaying) {
-            framesSinceLastUpdate++;
-        }
-        drawGame(canvas);
-        invalidate();
-    }
 
     private void update() {
 
@@ -138,10 +121,11 @@ public class Game extends SurfaceView implements GestureDetector.OnGestureListen
     }
 
     private void gameOver(){
-        pause();
-        Intent intent = new Intent(mContext, EndGameActivity.class);
-        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-        mContext.startActivity(intent);
+        done.onDone(snake.isDead());
+        //pause();
+//        Intent intent = new Intent(mContext, EndGameActivity.class);
+//        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+//        mContext.startActivity(intent);
     }
 
     @Override
@@ -149,7 +133,9 @@ public class Game extends SurfaceView implements GestureDetector.OnGestureListen
         setMeasuredDimension(widthMeasureSpec, heightMeasureSpec);
     }
 
-    private void drawGame(Canvas canvas) {
+    private void drawGame() {
+        if (!getHolder().getSurface().isValid()) return;
+        Canvas canvas = getHolder().lockCanvas();
         canvas.drawColor(Color.BLACK);
 
         // DRAW BORDERS
@@ -160,7 +146,7 @@ public class Game extends SurfaceView implements GestureDetector.OnGestureListen
         apple.draw(canvas, boxWidth, widthMargin, topMargin*2+scoreBoardHeight);
 
         drawScore(canvas);
-
+        getHolder().unlockCanvasAndPost(canvas);
     }
 
     private void drawScore(Canvas canvas) {
@@ -187,10 +173,18 @@ public class Game extends SurfaceView implements GestureDetector.OnGestureListen
 
     public void pause() {
         isPlaying = false;
+        try {
+            thread.join();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
     }
 
     public void resume() {
         isPlaying = true;
+        thread = new Thread(this);
+        thread.setName("Game Thread");
+        thread.start();
     }
 
 
@@ -254,6 +248,19 @@ public class Game extends SurfaceView implements GestureDetector.OnGestureListen
     @Override
     public void onLongPress(MotionEvent e) {
 
+    }
+
+    @Override
+    public void run() {
+        while (isPlaying) {
+            update();
+            drawGame();
+            try {
+                thread.sleep(175);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        }
     }
 }
 

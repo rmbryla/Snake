@@ -6,11 +6,10 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.view.MotionEvent;
-import android.view.SurfaceView;
 import android.view.View;
 import android.widget.FrameLayout;
-import android.widget.ImageView;
 
+import main.snake.Model.Callback;
 import main.snake.Model.Snake;
 import main.snake.R;
 import main.snake.SessionManager;
@@ -29,7 +28,14 @@ public class GameActivity extends AppCompatActivity {
 
         Point size = new Point();
         getWindowManager().getDefaultDisplay().getSize(size);
-        game = new Game(getApplicationContext(), size);
+        game = new Game(getApplicationContext(), size, new Callback() {
+            @Override
+            public void onDone(boolean isDead) {
+                if (!isDead) return;
+                Intent intent = new Intent(getApplicationContext(), EndGameActivity.class);
+                startActivity(intent);
+            }
+        });
         SessionManager.setGame(game);
         frameLayout = findViewById(R.id.game_layout_activity);
         frameLayout.addView(game);
