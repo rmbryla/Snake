@@ -24,6 +24,7 @@ public class Game extends SurfaceView implements GestureDetector.OnGestureListen
     private boolean isPlaying;
     private Thread thread = null;
     private Callback done;
+    public final int THREAD_SLEEP_TIME = 175;
 
     private GestureDetector gestureDetector;
 
@@ -259,7 +260,7 @@ public class Game extends SurfaceView implements GestureDetector.OnGestureListen
             update();
             drawGame();
             try {
-                thread.sleep(175);
+                thread.sleep(THREAD_SLEEP_TIME);
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
